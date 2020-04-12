@@ -16,7 +16,9 @@ router.post('/signup', (req,res) => {
 
     //Checks for all the required fields 
     if(!name || !email || !password){
-        return res.status(422).json("Please enter the required fields");
+        return res.status(422).json({
+            error : "Please fill all the fields"
+        });
     }
 
     //Check if the user exists 
@@ -24,7 +26,8 @@ router.post('/signup', (req,res) => {
         email : email
     }).then((user) => {
         if(user) {
-            return res.status(422).json("The user with that email already exist");
+            return res.status(422).json({
+                error : "The user with that email already exist"});
         }
 
         bcrypt.hash(password,10).then((hashedpass)=> {
@@ -36,7 +39,9 @@ router.post('/signup', (req,res) => {
     
             //Saving user to the database
             newUser.save().then((savedUser) => {
-                res.status(200).json("User saved to the database");
+                res.status(200).json({
+                    message : "User signed up successfully"
+                });
             })
             .catch((err) => {
                 console.log(err);
