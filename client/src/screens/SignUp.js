@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import {Link,useHistory} from "react-router-dom"
-import axios from "axios"
 import M from "materialize-css"
+
 const SignUp = () => {
   const history = useHistory();
   const [name,setName] = useState("");
@@ -9,7 +9,7 @@ const SignUp = () => {
   const [password,setPassword] = useState("");
 
   const postData = () => {
-    if(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     ){
        M.toast({html : "Invalid Email",classes : "#c62828 red darken-3"})
        return;
@@ -25,22 +25,22 @@ const SignUp = () => {
        password
      })
    }).then((res) => res.json())
-   .then((data) => {
-     console.log(data.error);
-     if(data.error) {
-       M.toast({
-        html : data.error,classes : "#c62828 red darken-3"
-       })
-     }
-     else {
-       M.toast({
-         html : data.message,classes : "#4caf50 green"
-       })
-       history.push("/signin");
-     }
-   })
-   console.log(name,email,password);
-}
+      .then((data) => {
+        console.log(data.error);
+        if(data.error) {
+          M.toast({
+            html : data.error,classes : "#c62828 red darken-3"
+          })
+        }
+        else {
+          M.toast({
+            html : data.message,classes : "#4caf50 green"
+          })
+          history.push("/signin");
+        }
+      })
+      console.log(name,email,password);
+    }
 
     return (
         <div className="mycard">
@@ -52,10 +52,10 @@ const SignUp = () => {
             <input type ="text" value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder="password" />
 
             <button className="btn waves-effect waves-light" onClick ={() => postData()}>
-                SignUp
+                Sign Up
             </button>
             <br /> <br />
-                <Link to = "/signin"> Already have an account?</Link>
+                <Link to = "/signin"> Already have an account? Sign In</Link>
           </div>
         </div>
 
