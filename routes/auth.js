@@ -21,6 +21,7 @@ router.post('/signup', (req,res) => {
         });
     }
 
+
     //Check if the user exists 
     User.findOne({
         email : email
@@ -56,27 +57,30 @@ router.post('/signup', (req,res) => {
 router.post('/signin', (req,res) => {
     const {email,password} = req.body;
     if(!email || !password) {
-        res.status(422).json("Please fill in the required fields");
-    } 
+        res.status(422).json({
+            error : "Please fill in the required fields"
+        });
+    }
     //Checking if User has signed up or not
     User.findOne({
         email
     }).then((user) => {
         if(!user) {
-            return res.status(422).json("User with this email is not registerd");
+            return res.status(422).json({
+                error : "User with this email is not registerd" });
         }
 
         bcrypt.compare(password,user.password)
         .then((isMatch) => {
             if(isMatch){
-                // res.json({
-                //     message : "User successfully signed in"
-                // })
                 const token = jwt.sign({_id : user._id},secret);
-                res.json({token});
+                const {_id,name,email} = user;
+                res.json({token,user : {_id,name,email}});
             }
             else {
-                res.json("Sorry Incorrect Email/Password")
+                res.json({
+                    error : "Sorry Incorrect Email/Password"
+                })
             }
         }).catch((err) => {
             console.log(err);
