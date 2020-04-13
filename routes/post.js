@@ -16,8 +16,9 @@ router.get('/allpost',(req,res) => {
 
 //To create post
 router.post('/createpost',requireLogin,(req,res) => {
-    const {title,body} = req.body;
-    if(!title || !body){
+    const {title,body,pic} = req.body;
+    console.log(title,body,pic);
+    if(!title || !body || !pic){
         return res.status(422).json({
             error : "Please fill the required fields"
         })
@@ -26,15 +27,18 @@ router.post('/createpost',requireLogin,(req,res) => {
     const post = new Post({
         title,
         body,
+        photo : pic,
         postedBy : req.user //Accessing the payload data
     })
     
     post.save().then((savedPost) => {
         res.status(200).json({
-            post : savedPost
+            post : "Saved Post successfully"
         })
     }).catch((err) => {
-        console.log(err);
+        res.json({
+            error : "error creating post"
+        })
     })    
 })
 
@@ -49,5 +53,6 @@ router.get("/myposts",requireLogin,(req,res) => {
         console.log(err);
     })
 })
+
 
 module.exports = router;
