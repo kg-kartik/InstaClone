@@ -49,7 +49,7 @@ const SignUp = () => {
 
             <input type ="text" value ={name} onChange =  {(e) => {setName(e.target.value)}} placeholder="name" />
             <input type ="text" value={email} onChange={(e) => {setEmail(e.target.value)}} placeholder="email" />
-            <input type ="text" value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder="password" />
+            <input type ="password" value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder="password" />
 
             <button className="btn waves-effect waves-light" onClick ={() => postData()}>
                 Sign Up
