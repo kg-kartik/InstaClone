@@ -19,7 +19,19 @@ const postSchema = new Schema({
     likes : [
         {
             type : ObjectId,
-            ref : "User"
+            ref : "userModel"
+        }
+    ],
+    comments : [
+        {
+            text :{
+                type : String,
+                required : true
+            },
+            postedBy : {
+                type :ObjectId,
+                ref : "userModel"
+            }
         }
     ],
     postedBy : {
