@@ -83,6 +83,25 @@ router.post('/unlikes' ,requireLogin,(req,res) => {
             res.json(result);
         }
     })
-
 })
+
+//Comments routes
+router.post('/comments',requireLogin,(req,res) => {
+    const comment = {
+        text : req.body.text,
+        postedBy : req.user._id
+    }
+    Post.findByIdAndUpdate(req.body.postId)
+    .populate("comments.postedBy","_id name")
+    .then((post) => {
+        post.comments.push(comment)
+        post.save()
+        .then((savedPost) => {
+            res.json(savedPost);
+        }).catch((err) => {
+            res.json(err);
+        })
+    })
+})
+
 module.exports = router;
