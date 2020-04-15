@@ -54,5 +54,35 @@ router.get("/myposts",requireLogin,(req,res) => {
     })
 })
 
+//Likes route
+router.post('/likes',requireLogin,(req,res) => {
+    Post.findByIdAndUpdate(req.body.postId)
+    .then((post) => {
+        post.likes.push(req.user._id);
+        
+        post.save()
+        .then((savedPost) => {
+            res.status(200).json(savedPost);
+        }).catch((err) => {
+            res.json(err);
+        })
+    })
+})
 
+//Unlikes route
+router.post('/unlikes' ,requireLogin,(req,res) => {
+    Post.findByIdAndUpdate(req.body.postId , {
+        $pull : {likes : req.user._id}
+    }, {
+        new : true
+    }).exec((err,result) => {
+        if(err) {
+            return res.status(422).json({error : err})
+        }
+        else {
+            res.json(result);
+        }
+    })
+
+})
 module.exports = router;
