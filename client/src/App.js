@@ -14,25 +14,21 @@ export const UserContext = createContext();
 const Routing = () => {
   const history = useHistory();
   const {state,dispatch} = useContext(UserContext);
-
   useEffect(() => {
     //As soon as the component loads it checks whether the user has token or not and redirects accordingly
     const user = JSON.parse(localStorage.getItem("user"));
-    console.log(user);
-    console.log(typeof(user));
     if(user) {
       dispatch({
         type : "USER",
         payload : user
       })
-      history.push('/');
     }
     else {
       history.push('/signin');
     }
   },[])
-
 return (
+
   <Switch>
     
     <Route exact path="/">
