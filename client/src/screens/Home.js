@@ -5,7 +5,7 @@ const Home = () => {
     const [data,setData] = useState([]);
     const {state,dispatch} = useContext(UserContext)
     useEffect(() =>{
-        fetch('/allpost',{
+        fetch('http://localhost:5000/allpost',{
             headers : {
                 "Authorization" : "Bearer " + localStorage.getItem("jwt")
             }
@@ -74,6 +74,36 @@ const Home = () => {
         })
     }
 
+    //Comments function
+    const makeComment = (text,postId) => {
+        fetch("http://localhost:5000/comments",{
+            method : "post",
+            headers : {
+                "Authorization" : "Bearer " + localStorage.getItem("jwt"),
+                "Content-Type" : "application/json"
+            },
+            body : JSON.stringify({ 
+                text,
+                postId
+            })
+        }).then((res) => res.json())
+        .then((result) => {
+            
+            const newData = data.map((item) => {
+                if(item._id == result._id) {
+                    return result
+                }
+                else {
+                    return item
+                }
+            })
+            setData(newData);
+            console.log(newData);
+        }).catch((err) => {
+            console.log(err);
+        })
+    }
+
     return (
         <div className = "home">
        {
@@ -97,7 +127,19 @@ const Home = () => {
                     <h6> {item.likes.length} Likes</h6>
                     <h6> {item.title}</h6>
                     <p> {item.body}</p>
-                    <input type="text" placeholder="Add your comment" />
+                    {
+                        item.comments.map((comment) => {
+                            return (
+                                <h6> <bold> {comment.postedBy.name}</bold> {comment.text} </h6>
+                            )
+                        })
+                    }
+                    <form onSubmit = {(e) => {
+                        e.preventDefault();
+                        makeComment(e.target[0].value,item._id);
+                    }}>
+                        <input type="text" placeholder="Add your comment" />
+                    </form>
                 </div>
             </div>
 
