@@ -104,6 +104,23 @@ const Home = () => {
         })
     }
 
+    //Delete Post 
+    const deletePost = (postId) => {
+        fetch("http://localhost:5000/delete/"+postId ,{
+            method: "delete",
+            headers : {
+                "Authorization" : "Bearer " + localStorage.getItem("jwt"),
+            }
+        }).then((res) => res.json())
+          .then((result) => {
+              
+                const newData = data.filter((item) => {
+                    return item._id !== result._id
+                })
+                setData(newData);
+          })
+    }
+
     return (
         <div className = "home">
        {
@@ -111,7 +128,14 @@ const Home = () => {
             return (
             <div className="home">
             <div className="card home-card">
-                <h5> {item.postedBy.name} </h5>
+                <h5> {item.postedBy.name} 
+                    {
+                        item.postedBy._id === state._id ? 
+                        <i className="material-icons right" 
+                        onClick = {() => { deletePost(item._id) }}>delete</i> :
+                        ""
+                    } 
+                </h5>
                 <div className="card-image">
                     <img src={item.photo} />
                 </div>
