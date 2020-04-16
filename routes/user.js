@@ -5,7 +5,7 @@ const requireLogin = require("../middleware/requireLogin");
 const User = require("../models/users");
 const Post = require("../models/post");
 
-router.get("/user/:id",(req,res) => {   
+router.get("/user/:id",requireLogin,(req,res) => {   
     User.findOne({
         _id : req.params.id
     })
