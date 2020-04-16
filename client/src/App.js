@@ -8,6 +8,7 @@ import SignIn from "./screens/SignIn"
 import Profile from "./screens/Profile"
 import CreatePost from "./screens/CreatePost";
 import {reducer,initialState} from "./reducers/userReducer";
+import UserProfile from "./screens/UserProfile";
 
 export const UserContext = createContext();
 
@@ -43,8 +44,13 @@ return (
       <SignIn />
     </Route>
     
-    <Route path ="/profile">
+    <Route exact path ="/profile">
       <Profile />
+    </Route>
+
+    
+    <Route path ="/profile/:userid">
+      <UserProfile />
     </Route>
 
     <Route path ="/createpost">
