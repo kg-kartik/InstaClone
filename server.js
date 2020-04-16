@@ -6,6 +6,7 @@ const db = require('./config/keys').MongoURI;
 const authroute = require("./routes/auth");
 const postroute = require("./routes/post");
 const cors = require("cors");
+const userRoute = require("./routes/user");
 
 mongoose.connect(db, {useNewUrlParser : true,
     useUnifiedTopology: true,
@@ -24,6 +25,7 @@ app.use(bodyParser.json());
 
 app.use("/",authroute);
 app.use("/",postroute);
+app.use("/",userRoute);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, console.log(`Server started on ${PORT}`));
