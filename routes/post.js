@@ -58,6 +58,7 @@ router.get("/myposts",requireLogin,(req,res) => {
 //Likes route
 router.post('/likes',requireLogin,(req,res) => {
     Post.findByIdAndUpdate(req.body.postId)
+    .populate("postedBy",["_id","name"])
     .then((post) => {
         post.likes.push(req.user._id);
         
@@ -76,7 +77,8 @@ router.post('/unlikes' ,requireLogin,(req,res) => {
         $pull : {likes : req.user._id}
     }, {
         new : true
-    }).exec((err,result) => {
+    }).populate("postedBy",["_id","name"])
+    .exec((err,result) => {
         if(err) {
             return res.status(422).json({error : err})
         }
