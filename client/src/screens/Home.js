@@ -6,7 +6,7 @@ const Home = () => {
     const [data,setData] = useState([]);
     const {state,dispatch} = useContext(UserContext)
     useEffect(() =>{
-        fetch('http://localhost:5000/allpost',{
+        fetch('http://localhost:5000/followingposts',{
             headers : {
                 "Authorization" : "Bearer " + localStorage.getItem("jwt")
             }
@@ -129,7 +129,7 @@ const Home = () => {
             return (
             <div className="home">
             <div className="card home-card">
-                <h5> <Link to ={item.postedBy._id !== state._id ? "/profile/"+item.postedBy._id :"/profile/"}>
+                <h5 style={{padding : "5px"}}> <Link to ={item.postedBy._id !== state._id ? "/profile/"+item.postedBy._id :"/profile/"}>
                     {item.postedBy.name}</Link> 
                     {
                         item.postedBy._id === state._id ? 
@@ -156,7 +156,7 @@ const Home = () => {
                     {
                         item.comments.map((comment) => {
                             return (
-                                <h6> <bold> {comment.postedBy.name}</bold> {comment.text} </h6>
+                                <h6>  <span style ={{fontWeight : "bold"}}> {comment.postedBy.name} </span> {comment.text} </h6>
                             )
                         })
                     }
