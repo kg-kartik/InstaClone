@@ -74,8 +74,8 @@ router.post('/signin', (req,res) => {
         .then((isMatch) => {
             if(isMatch){
                 const token = jwt.sign({_id : user._id},secret);
-                const {_id,name,email} = user;
-                res.json({token,user : {_id,name,email}});
+                const {_id,name,email,followers,following} = user;
+                res.json({token,user : {_id,name,email,followers,following}});
             }
             else {
                 res.json({
