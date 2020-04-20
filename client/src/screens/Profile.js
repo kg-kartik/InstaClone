@@ -17,7 +17,7 @@ const Profile = () => {
 
             setPhotos(data);
         })
-    })
+    },[])
     return(
         <div>
             {state ? 
@@ -35,8 +35,8 @@ const Profile = () => {
                     </h4>
                     <div className="profile-details">
                         <h5> {photos ? photos.length : "0"} posts</h5>
-                        <h5> {state.followers ? state.followers.length : "0"} Followers</h5>
-                        <h5> {state.following.length} Following</h5>
+                        <h5> {state ? state.followers.length : "0"} Followers</h5>
+                        <h5> {state ? state.following.length : "0"} Following</h5>
                     </div>
 
                 </div> 

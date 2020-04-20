@@ -26,7 +26,6 @@ const SignIn = () => {
      })
    }).then((res) => res.json())
       .then((data) => {
-        console.log(data);
         if(data.error) {
           M.toast({
             html : data.error,classes : "#c62828 red darken-3"
@@ -50,7 +49,7 @@ const SignIn = () => {
             <h2> Instagram</h2>
             <input type ="text" value={email} onChange={(e) => {setEmail(e.target.value)}} placeholder="email" />
             <input type ="password" value={password} onChange={(e) => {setPassword(e.target.value)}} placeholder="password" />
-            <button className="btn waves-effect waves-light" onClick ={() => postData()}>Submit
+            <button className="btn waves-effect waves-light" onClick ={() => postData()}>
                 Sign In
             </button>
             <br /><br />
