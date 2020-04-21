@@ -15,6 +15,19 @@ router.get('/allpost',requireLogin,(req,res) => {
     })
 })
 
+//To get posts from users which the logged in users follow
+router.get('/followingposts',requireLogin,(req,res) => {
+    console.log(req.user.name);
+    Post.find({postedBy : {$in : req.user.following}})
+    .populate("postedBy",["_id","name"])
+    .populate("comments.postedBy",["_id","name"])
+    .then((posts) => {
+        res.json(posts);
+    }).catch((err) => {
+        console.log(err);
+    })
+})
+
 //To create post
 router.post('/createpost',requireLogin,(req,res) => {
     const {title,body,pic} = req.body;
